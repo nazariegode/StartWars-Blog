@@ -3,11 +3,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./views/home";
-import { Single } from "./views/single";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
-import AddContact from "./views/addContact";
+import { Footer } from "./component/footer";
+import { Characters } from "./views/characters";
+import { Planets } from "./views/planets";
+import { Vehicles } from "./views/vehicles";
 
 const Layout = () => {
 
@@ -19,12 +21,13 @@ const Layout = () => {
 				<ScrollToTop>
 					<Navbar />
 					<Routes>
-						<Route path="/addContact" element={<AddContact />} />
-						<Route path="/editContact/:contact_id" element={<AddContact />} />
 						<Route path="/" element={<Home />} />
-						<Route path="/single/:theid" element={<Single />} />
+						<Route path="/character" element={<Characters />} />
+						<Route path="/vehicles" element={<Vehicles />} />
+						<Route path="/planets" element={<Planets />} />
 						<Route path="*" element={<h1>Not found!</h1>} />
 					</Routes>
+					< Footer />
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>
