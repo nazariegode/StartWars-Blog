@@ -26,28 +26,34 @@ export const Characters = () => {
     return (
         <div className="container my-6">
             {selectedCharacter ? (
-                <div>
-                    <div className="card m-2 card-custom bg-dark">
-                        <img
-                            src={`https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`}
-                            className="card-img-top custom-img-size"
-                            alt={selectedCharacter.name}
-                        />
-                        <div className="card-body">
-                            <h5 className="card-title color-white">{selectedCharacter.name}</h5>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Height: {selectedCharacter.height}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Mass: {selectedCharacter.mass}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Hair Color: {selectedCharacter.hair_color}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Skin Color: {selectedCharacter.skin_color}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Eye Color: {selectedCharacter.eye_color}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Birth Year: {selectedCharacter.birth_year}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Gender: {selectedCharacter.gender}</p>
+                <>
+                    <div class="card mb-3 card-custom bg-dark" >
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img
+                                    src={`https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`}
+                                    className="card-img-top custom-img-size"
+                                    alt={selectedCharacter.name}
+                                />
+                            </div>
+                            <div class="col-md-8">
+                                <div className="card-body">
+                                    <h5 className="card-title text-warning">{selectedCharacter.name}</h5>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Height: {selectedCharacter.height}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Mass: {selectedCharacter.mass}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Hair Color: {selectedCharacter.hair_color}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Skin Color: {selectedCharacter.skin_color}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Eye Color: {selectedCharacter.eye_color}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Birth Year: {selectedCharacter.birth_year}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Gender: {selectedCharacter.gender}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button className="btn btn-warning mb-3" onClick={() => setSelectedCharacter(null)}>
                         Back to Characters
                     </button>
-                </div>
+                </>
             ) : (
                 <div className="card-container">
                     {characters.map((character, index) => (

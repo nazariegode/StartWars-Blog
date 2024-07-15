@@ -26,30 +26,37 @@ export const Vehicles = () => {
     return (
         <div className="container my-6">
             {selectedVehicle ? (
-                <div>
-                    <div className="card m-2 card-custom bg-dark">
-                        <img
-                            src={`https://starwars-visualguide.com/assets/img/vehicles/${vehicleId}.jpg`}
-                            className="card-img-top custom-img-size"
-                            alt={selectedVehicle.name}
-                        />
-                        <div className="card-body">
-                            <h5 className="card-title color-white">{selectedVehicle.name}</h5>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Model: {selectedVehicle.model}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Manufacturer: {selectedVehicle.manufacturer}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Cost in Credits: {selectedVehicle.cost_in_credits}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Length: {selectedVehicle.length}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Max Atmosphering Speed: {selectedVehicle.max_atmosphering_speed}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Crew: {selectedVehicle.crew}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Passengers: {selectedVehicle.passengers}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Cargo Capacity: {selectedVehicle.cargo_capacity}</p>
-                            <p className="card-text no-margin"><i className="bi bi-caret-right"></i> Consumables: {selectedVehicle.consumables}</p>
+                <>
+                    <div class="card mb-3 card-custom bg-dark" >
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img
+                                    src={`https://starwars-visualguide.com/assets/img/vehicles/${vehicleId}.jpg`}
+                                    className="card-img-top custom-img-size"
+                                    alt={selectedVehicle.name}
+                                />
+                            </div>
+                            <div class="col-md-7">
+                                <div className="card-body">
+                                    <h5 className="card-title text-warning">{selectedVehicle.name}</h5>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Model: {selectedVehicle.model}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Manufacturer: {selectedVehicle.manufacturer}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Cost in Credits: {selectedVehicle.cost_in_credits}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Length: {selectedVehicle.length}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Max Atmosphering Speed: {selectedVehicle.max_atmosphering_speed}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Crew: {selectedVehicle.crew}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Passengers: {selectedVehicle.passengers}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Cargo Capacity: {selectedVehicle.cargo_capacity}</p>
+                                    <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Consumables: {selectedVehicle.consumables}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button className="btn btn-warning mb-3" onClick={() => setSelectedVehicle(null)}>
                         Back to Vehicles
                     </button>
-                </div>
+                </>
+
             ) : (
                 <div className="card-container">
                     {vehicles.map((vehicle, index) => (
@@ -76,7 +83,8 @@ export const Vehicles = () => {
                         </div>
                     ))}
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
