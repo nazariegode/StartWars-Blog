@@ -12,7 +12,6 @@ import { Planets } from "./views/planets";
 import { Vehicles } from "./views/vehicles";
 
 const Layout = () => {
-
 	const basename = process.env.BASENAME || "";
 
 	return (
@@ -27,7 +26,7 @@ const Layout = () => {
 						<Route path="/planets" element={<Planets />} />
 						<Route path="*" element={<h1>Not found!</h1>} />
 					</Routes>
-					< Footer />
+					<Footer />
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>

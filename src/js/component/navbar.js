@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../img/sw.png"
+import logo from "../../img/sw.png";
 import "../../styles/index.css";
+import { Context } from "../store/appContext";
 
-export const Navbar = ({ favoritos, borrar }) => {
+export const Navbar = () => {
+    const { store, actions } = useContext(Context);
+
     return (
         <>
             <nav className="navbar navbar-light mb-3 px-4 justify-content-between">
@@ -27,25 +30,42 @@ export const Navbar = ({ favoritos, borrar }) => {
                 </Link>
 
                 <div className="ml-auto">
-                    <Link to="/">
-                        <button className="btn btn-dark">Favorites</button>
-                    </Link>
+                    <div className="btn-group">
+                        <button
+                            type="button"
+                            className="btn btn-secondary dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            Favorites {store.favorites.length}
+                        </button>
+                        <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                            {store.favorites.map((fav, index) => (
+                                <li key={index}>
+                                    <div className="dropdown">
+                                        <div className="d-flex justify-content-between mx-2">
+                                            <span className="span-favt">{fav}<hr /></span>
+                                            <span className="span-x" onClick={() => actions.removeFavorite(index)}><i className="bi bi-x"></i></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-            </nav>
+            </nav >
 
-
-            <ul class="nav mb-3 px-3 justify-content-center bg-dark">
-                <li class="nav-item">
-                    <Link class="nav-link active yellow-link" to="/character">Characters</Link>
+            <ul className="nav mb-3 px-3 justify-content-center bg-dark">
+                <li className="nav-item">
+                    <Link className="nav-link active yellow-link" to="/character">Characters</Link>
                 </li>
-                <li class="nav-item">
-                    <Link class="nav-link yellow-link" to="/vehicles">Vehicles</Link>
+                <li className="nav-item">
+                    <Link className="nav-link yellow-link" to="/vehicles">Vehicles</Link>
                 </li>
-                <li class="nav-item">
-                    <Link class="nav-link yellow-link" to="/planets">Planets</Link>
+                <li className="nav-item">
+                    <Link className="nav-link yellow-link" to="/planets">Planets</Link>
                 </li>
             </ul>
-
         </>
     );
 };

@@ -1,42 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../../styles/vehicles.css";
+import { Context } from "../store/appContext";
 
 export const Vehicles = () => {
-    const [vehicles, setVehicles] = useState([]);
+    const { store, actions } = useContext(Context);
     const [selectedVehicle, setSelectedVehicle] = useState(null);
     const [vehicleId, setVehicleId] = useState(null);
+    const [duplicateAlert, setDuplicateAlert] = useState(null);
 
     useEffect(() => {
-        fetch("https://www.swapi.tech/api/vehicles")
-            .then((resp) => resp.json())
-            .then((result) => setVehicles(result.results))
-            .catch((error) => console.error(error));
+        actions.getVehicles();
     }, []);
 
-    const fetchVehicleDetails = (id) => {
-        fetch(`https://www.swapi.tech/api/vehicles/${id}`)
+    const fetchVehicleDetails = (vehicleUid) => {
+        fetch(`https://www.swapi.tech/api/vehicles/${vehicleUid}`)
             .then((resp) => resp.json())
-            .then((result) => {
-                setSelectedVehicle(result.result.properties);
-                setVehicleId(id);
+            .then((data) => {
+                setSelectedVehicle(data.result.properties);
+                setVehicleId(vehicleUid);
             })
-            .catch((error) => console.error(error));
+            .catch((error) => console.error('There was a problem with your fetch operation:', error));
+    };
+
+    const addToFavorites = (vehicleName) => {
+        if (!store.favorites.includes(vehicleName)) {
+            actions.addFavorite(vehicleName);
+            setDuplicateAlert(null);
+        } else {
+            setDuplicateAlert(
+                <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{vehicleName}</strong> ya está en tus favoritos.
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setDuplicateAlert(null)}></button>
+                </div>
+            );
+        }
     };
 
     return (
         <div className="container my-6">
+            {duplicateAlert}
             {selectedVehicle ? (
                 <>
-                    <div class="card mb-3 card-custom bg-dark" >
-                        <div class="row g-0">
-                            <div class="col-md-5">
+                    <div className="card mb-3 card-custom bg-dark">
+                        <div className="row g-0">
+                            <div className="col-md-5">
                                 <img
                                     src={`https://starwars-visualguide.com/assets/img/vehicles/${vehicleId}.jpg`}
                                     className="card-img-top custom-img-size"
                                     alt={selectedVehicle.name}
                                 />
                             </div>
-                            <div class="col-md-7">
+                            <div className="col-md-7">
                                 <div className="card-body">
                                     <h5 className="card-title text-warning">{selectedVehicle.name}</h5>
                                     <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Model: {selectedVehicle.model}</p>
@@ -56,10 +70,9 @@ export const Vehicles = () => {
                         Back to Vehicles
                     </button>
                 </>
-
             ) : (
                 <div className="card-container">
-                    {vehicles.map((vehicle, index) => (
+                    {store.vehicles.map((vehicle, index) => (
                         <div className="card m-2 card-custom bg-dark" key={index}>
                             <img
                                 src={`https://starwars-visualguide.com/assets/img/vehicles/${vehicle.uid}.jpg`}
@@ -67,7 +80,7 @@ export const Vehicles = () => {
                                 alt={vehicle.name}
                             />
                             <div className="card-body">
-                                <h5 className="card-title color-white">{vehicle.name}</h5>
+                                <h5 className="card-title text-white">{vehicle.name}</h5>
                                 <div className="d-flex justify-content-between">
                                     <button
                                         className="btn btn-warning"
@@ -75,7 +88,11 @@ export const Vehicles = () => {
                                     >
                                         Detail
                                     </button>
-                                    <button type="button" className="btn btn-warning">
+                                    <button
+                                        type="button"
+                                        className="btn btn-warning"
+                                        onClick={() => addToFavorites(vehicle.name)}
+                                    >
                                         <i className="bi bi-heart"></i>
                                     </button>
                                 </div>
@@ -83,8 +100,7 @@ export const Vehicles = () => {
                         </div>
                     ))}
                 </div>
-            )
-            }
-        </div >
+            )}
+        </div>
     );
 };

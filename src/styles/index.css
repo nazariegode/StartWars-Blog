@@ -14,7 +14,7 @@ p{
 }
 
 .yellow-link {
-    color: rgba(255, 255, 255, 0.525) !important;
+    color: #ffc107 !important;
 
 }
 
@@ -26,3 +26,10 @@ p{
     color: white
 }
 
+.span-favt{
+    color: #ffc107;
+}
+
+.contact{
+    margin: 50px 50px;
+}

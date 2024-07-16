@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../../styles/characters.css";
+import { Context } from "../store/appContext";
 
 export const Characters = () => {
-    const [characters, setCharacters] = useState([]);
+    const { store, actions } = useContext(Context);
     const [selectedCharacter, setSelectedCharacter] = useState(null);
     const [characterId, setCharacterId] = useState(null);
+    const [duplicateAlert, setDuplicateAlert] = useState(null);
 
     useEffect(() => {
-        fetch("https://www.swapi.tech/api/people/")
-            .then((resp) => resp.json())
-            .then((data) => setCharacters(data.results))
-            .catch((error) => console.error(error));
+        actions.getCharacters();
     }, []);
 
     const fetchCharacterDetails = (url, id) => {
@@ -23,20 +22,35 @@ export const Characters = () => {
             .catch((error) => console.error('There was a problem with your fetch operation:', error));
     };
 
+    const addToFavorites = (characterName) => {
+        if (!store.favorites.includes(characterName)) {
+            actions.addFavorite(characterName);
+            setDuplicateAlert(null);
+        } else {
+            setDuplicateAlert(
+                <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{characterName}</strong>  ya está en tus favoritos.
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setDuplicateAlert(null)}></button>
+                </div>
+            );
+        }
+    };
+
     return (
         <div className="container my-6">
+            {duplicateAlert}
             {selectedCharacter ? (
                 <>
-                    <div class="card mb-3 card-custom bg-dark" >
-                        <div class="row g-0">
-                            <div class="col-md-4">
+                    <div className="card mb-3 card-custom bg-dark">
+                        <div className="row g-0">
+                            <div className="col-md-4">
                                 <img
                                     src={`https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`}
                                     className="card-img-top custom-img-size"
                                     alt={selectedCharacter.name}
                                 />
                             </div>
-                            <div class="col-md-8">
+                            <div className="col-md-8">
                                 <div className="card-body">
                                     <h5 className="card-title text-warning">{selectedCharacter.name}</h5>
                                     <p className="card-text no-margin fs-6"><i className="bi bi-caret-right"></i> Height: {selectedCharacter.height}</p>
@@ -56,7 +70,7 @@ export const Characters = () => {
                 </>
             ) : (
                 <div className="card-container">
-                    {characters.map((character, index) => (
+                    {store.characters.map((character, index) => (
                         <div className="card m-2 card-custom bg-dark" key={index}>
                             <img
                                 src={`https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg`}
@@ -64,7 +78,7 @@ export const Characters = () => {
                                 alt={character.name}
                             />
                             <div className="card-body">
-                                <h5 className="card-title color-white">{character.name}</h5>
+                                <h5 className="card-title text-white">{character.name}</h5>
                                 <div className="d-flex justify-content-between">
                                     <button
                                         className="btn btn-warning"
@@ -72,7 +86,11 @@ export const Characters = () => {
                                     >
                                         Detail
                                     </button>
-                                    <button type="button" className="btn btn-warning">
+                                    <button
+                                        type="button"
+                                        className="btn btn-warning"
+                                        onClick={() => addToFavorites(character.name)}
+                                    >
                                         <i className="bi bi-heart"></i>
                                     </button>
                                 </div>
